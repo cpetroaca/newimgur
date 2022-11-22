@@ -8,4 +8,4 @@
  */
 
 rootProject.name = 'newimgur'
-include('app')
+include('image')
