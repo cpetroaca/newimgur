@@ -16,5 +16,4 @@ public class ImageController {
 	public Image getImage() {
 		return imageService.getImage();
 	}
-
 }

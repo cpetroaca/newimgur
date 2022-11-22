@@ -10,5 +10,5 @@ public class ImageService {
    public Image getImage() {
         UUID uuid = UUID.randomUUID();
         return new Image(uuid, ZonedDateTime.now(), "Hello");
-   } 
+   }
 }
