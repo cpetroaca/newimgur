@@ -4,3 +4,9 @@
 # Ignore Gradle build output directory
 build
 image/bin
+image/.settings
+image/.classpath
+image/.project
+/.project
+.settings
+
