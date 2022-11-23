@@ -7,8 +7,12 @@ import com.newimgur.image.model.Image;
 
 @Service
 public class ImageService {
-   public Image getImage() {
-        UUID uuid = UUID.randomUUID();
-        return new Image(uuid, ZonedDateTime.now(), "Hello");
+   public Image getImage(String id) {
+        return new Image(UUID.fromString(id), ZonedDateTime.now(), "Hello");
+   }
+   
+   public Image createImage(String caption) {
+	   UUID id = UUID.randomUUID();
+	   return new Image(id, ZonedDateTime.now(), caption);
    }
 }
