@@ -34,10 +34,6 @@ dependencies {
 	// end::tests[]
 }
 
-bootRun {
-	environment "SPANNER_EMULATOR_HOST", "localhost:9010"
-}
-
 bootBuildImage {
     imageName = "cpetroaca.io/newimgur/image:${version}"
 }
