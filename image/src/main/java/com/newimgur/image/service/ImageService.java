@@ -27,7 +27,7 @@ public class ImageService {
 
 	public Image createImage(String caption) {
 		UUID id = UUID.randomUUID();
-		Image image = new Image(id.toString(), Timestamp.ofTimeMicroseconds(ZonedDateTime.now().toEpochSecond()), caption);
+		Image image = new Image(id.toString(), Timestamp.ofTimeSecondsAndNanos(ZonedDateTime.now().toEpochSecond(), 0), caption);
 		
 		imagesRepository.save(image);
 		
