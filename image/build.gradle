@@ -13,7 +13,7 @@ plugins {
 }
 
 group = 'com.newimgur.image'
-version = '0.0.1-SNAPSHOT'
+version = '1.0.1'
 sourceCompatibility = '1.8'
 
 repositories {
@@ -34,12 +34,8 @@ dependencies {
 	// end::tests[]
 }
 
-bootRun {
-	environment "SPANNER_EMULATOR_HOST", "localhost:9010"
-}
-
 bootBuildImage {
-    imageName = "cpetroaca.io/newimgur/image:${version}"
+    imageName = "us-central1-docker.pkg.dev/newimgur/repo/image:${version}"
 }
 
 test {
