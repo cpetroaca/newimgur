@@ -13,7 +13,7 @@ plugins {
 }
 
 group = 'com.newimgur.image'
-version = '1.0.1'
+version = '1.0.2'
 sourceCompatibility = '1.8'
 
 repositories {
@@ -28,6 +28,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.cloud:spring-cloud-gcp-data-spanner:1.2.8.RELEASE'
 	implementation 'org.springframework.cloud:spring-cloud-gcp-starter-data-spanner:1.2.8.RELEASE'
+	implementation 'com.google.cloud:google-cloud-storage:1.17.0'
 	
 	// tag::tests[]
 	testImplementation('org.springframework.boot:spring-boot-starter-test')
