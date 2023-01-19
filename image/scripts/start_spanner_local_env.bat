@@ -13,4 +13,4 @@ call set SPANNER_EMULATOR_HOST=localhost:9010
 
 call gcloud spanner instances create newimgur-instance --config=emulator-config --description="Newimgur Instance" --nodes=1
 call gcloud spanner databases create newimgur-database --instance newimgur-instance
-call gcloud spanner databases ddl update newimgur-database --instance newimgur-instance --ddl "CREATE TABLE Images (id STRING(36) NOT NULL, createdAt TIMESTAMP, caption STRING(1024)) PRIMARY KEY (id)"
+call gcloud spanner databases ddl update newimgur-database --instance newimgur-instance --ddl "CREATE TABLE Images (id STRING(36) NOT NULL, createdAt TIMESTAMP, caption STRING(1024), fileType STRING(10)) PRIMARY KEY (id, createdAt DESC)"

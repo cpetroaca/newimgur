@@ -8,3 +8,4 @@ import com.newimgur.image.model.Image;
 @Repository
 public interface ImagesRepository extends SpannerRepository<Image, String> {
 }
+	
