@@ -35,6 +35,12 @@ public class ImageController {
 		}
 	}
 	
+	@GetMapping("/images")
+	public Iterable<Image> getImages(@RequestParam int limit, @RequestParam int offset) {
+		LOGGER.info("Requested images");
+		return imageService.getLatestImages(limit, offset);
+	}
+	
 	@PostMapping(value = "/images")
 	public Image createImage(@RequestParam String caption, @RequestParam MultipartFile file) {
 		try {
