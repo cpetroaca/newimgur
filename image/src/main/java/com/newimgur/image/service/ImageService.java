@@ -1,10 +1,13 @@
 package com.newimgur.image.service;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.StreamSupport;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -22,6 +25,7 @@ import com.google.cloud.storage.BlobInfo;
 import com.google.cloud.storage.Storage;
 import com.google.cloud.storage.StorageOptions;
 import com.newimgur.image.model.Image;
+import com.newimgur.image.model.ImageDto;
 import com.newimgur.image.repository.ImagesRepository;
 import com.newimgur.image.utils.ImageUtils;
 
@@ -36,30 +40,35 @@ public class ImageService {
 	@Autowired
 	ImagesRepository imagesRepository;
 
-	public Image getImage(String id) {
+	public ImageDto getImage(String id) {
 		List<Image> images = this.spannerTemplate.query(Image.class, Statement.of("SELECT * FROM Images WHERE id = '" + id + "'"), new SpannerQueryOptions());
 
 		if (images.size() > 0) {
-			return images.get(0);
+			return ImageUtils.toImageDto(images.get(0));
 		}
 		
 		return null;
 	}
 	
-	public Iterable<Image> getLatestImages(int limit, int offset) {
-		return imagesRepository.findAll(PageRequest.of(offset, limit, Sort.by("createdAt").descending()));
+	public List<ImageDto> getLatestImages(int limit, int offset) {
+		Iterable<Image> it = imagesRepository.findAll(PageRequest.of(offset, limit, Sort.by("createdAt").descending()));
+		List<ImageDto> imageDtoList = new ArrayList<>();
+		StreamSupport.stream(it.spliterator(), false)
+			.forEach(image -> imageDtoList.add(ImageUtils.toImageDto(image)));
+		
+		return imageDtoList;
 	}
 
-	public Image createImage(String caption, MultipartFile file) throws IOException {
+	public ImageDto createImage(String caption, MultipartFile file) throws IOException {
 		UUID id = UUID.randomUUID();
 		
 		saveFileToGcs(id, file);
 		
-		Image image = new Image(id.toString(), Timestamp.ofTimeSecondsAndNanos(ZonedDateTime.now().toEpochSecond(), 0), 
+		Image image = new Image(id.toString(), Timestamp.ofTimeSecondsAndNanos(LocalDateTime.now().toEpochSecond(ZoneOffset.UTC), 0), 
 				caption, ImageUtils.getFileExtension(file));
 		spannerTemplate.insert(image);
 		
-		return image;
+		return ImageUtils.toImageDto(image);
 	}
 	
 	private void saveFileToGcs(UUID id, MultipartFile file) throws IOException {
