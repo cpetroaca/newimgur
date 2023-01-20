@@ -1,6 +1,7 @@
 package com.newimgur.image.controller;
 
 import java.io.IOException;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
-import com.newimgur.image.model.Image;
+import com.newimgur.image.model.ImageDto;
 import com.newimgur.image.service.ImageService;
 
 @RestController
@@ -25,7 +26,7 @@ public class ImageController {
 	ImageService imageService;
 
 	@GetMapping("/images/{id}")
-	public Image getImage(@PathVariable String id) {
+	public ImageDto getImage(@PathVariable String id) {
 		try {
 			LOGGER.info("Requested image with id {}", id);
 			return imageService.getImage(id);
@@ -36,13 +37,13 @@ public class ImageController {
 	}
 	
 	@GetMapping("/images")
-	public Iterable<Image> getImages(@RequestParam int limit, @RequestParam int offset) {
+	public List<ImageDto> getImages(@RequestParam int limit, @RequestParam int offset) {
 		LOGGER.info("Requested images");
 		return imageService.getLatestImages(limit, offset);
 	}
 	
 	@PostMapping(value = "/images")
-	public Image createImage(@RequestParam String caption, @RequestParam MultipartFile file) {
+	public ImageDto createImage(@RequestParam String caption, @RequestParam MultipartFile file) {
 		try {
 			LOGGER.info("File name: {}", file.getContentType());
 			LOGGER.info("Creating image with caption {}", caption);
